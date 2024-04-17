@@ -1,0 +1,45 @@
+Program Sparring;
+const
+	opponent=$0034747B;
+	bandage=$0E21;
+	qty=200;
+	mainchest=$75FC0EA6;
+	band_pouch=$63AD9A42;
+//left 1603 1433
+//right 1606 1430
+	
+procedure Heal(target: cardinal);
+begin
+	TargetToObject(target);
+	UOSay(Chr(39)+'pc heal lt');
+end;
+procedure Bandages(chest: cardinal;pouch: cardinal);
+begin
+	FindType(bandage,Backpack);
+	if ((FindType(bandage,Backpack) = 0) or (FindQuantity < 10)) then
+	begin
+		MoveXY(GetX(chest),GetY(chest),false,1,false);
+		wait(100);
+		UseObject(chest);
+		wait(1500);
+		UseObject(pouch);
+		MoveItem(FindType(bandage, pouch), qty, backpack, 0, 0, 0);
+		wait(350);
+	end
+	else
+	begin
+		AddToSystemJournal('Enough bandages');
+	end;
+end;
+procedure HealthCheck(target:cardinal);
+begin
+	if GetHP(target) < 15 then
+	begin
+		repeat
+			Step(0,GetDirection(target));
+		until GetDistance(target) > 1;
+	end;
+end;
+begin
+
+end.
